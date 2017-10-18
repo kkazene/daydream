@@ -14,6 +14,8 @@ public class Pointer : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        controller.transform.rotation = GvrControllerInput.Orientation;
+
         RaycastHit hit;
         target = null;
 
