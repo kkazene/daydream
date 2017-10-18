@@ -32,3 +32,8 @@ ExportedObj/
 Icon?
 ehthumbs.db
 Thumbs.db
+
+
+# ignore project version
+*/ProjectSettings/ProjectVersion.txt
+
