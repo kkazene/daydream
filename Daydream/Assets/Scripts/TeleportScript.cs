@@ -14,12 +14,12 @@ public class TeleportScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (GvrControllerInput.ClickButtonDown) {
+		/*if (GvrControllerInput.ClickButtonDown) {
 			// If the Pointer currently has a non-null target
 			if (PointerDot.target != null) {
 				// Move the Headset at a fixed height above Pointer’s hit point.
 				Headset.transform.position = PointerDot.target.position; // plus fixed height ":D"
 			}
-		}
+		}*/
 	}
 }
