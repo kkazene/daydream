@@ -31,19 +31,18 @@ public class Pointer : MonoBehaviour {
             color = Color.red;
         }
 
-        Debug.DrawLine(o, o + 1000 * d, color);
+        //Debug.DrawLine(o, o + 1000 * d, color);
 
-        /*
-        GameObject myLine = new GameObject();
-        myLine.transform.position = start;
-        myLine.AddComponent<LineRenderer>();
-        LineRenderer lr = myLine.GetComponent<LineRenderer>();
+        GameObject line = new GameObject();
+        line.transform.position = o;
+        line.AddComponent<LineRenderer>();
+
+        LineRenderer lr = line.GetComponent<LineRenderer>();
         lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
         lr.SetColors(color, color);
         lr.SetWidth(0.1f, 0.1f);
-        lr.SetPosition(0, start);
-        lr.SetPosition(1, end);
-        GameObject.Destroy(myLine, 100);
-        */
+        lr.SetPosition(0, o);
+        lr.SetPosition(1, o + 1000 * d);
+        GameObject.Destroy(line, 0.1f);
     }
 }
