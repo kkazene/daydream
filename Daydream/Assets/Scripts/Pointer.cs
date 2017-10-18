@@ -6,10 +6,12 @@ public class Pointer : MonoBehaviour {
     public GameObject target;
     public Vector3 hitLocation;
     GameObject controller;
+    GameObject pointerDot;
 
     // Use this for initialization
     void Start () {
         controller = GameObject.Find("Controller");
+        pointerDot = GameObject.Find("PointerDot");
     }
 
     // Update is called once per frame
@@ -28,7 +30,12 @@ public class Pointer : MonoBehaviour {
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, (1 << 8))) {
             target = hit.collider.gameObject;
+            hitLocation = hit.point;
             color = Color.red;
+            pointerDot.SetActive(true);
+            pointerDot.transform.position = hitLocation;
+        } else {
+            pointerDot.SetActive(false);
         }
 
         //Debug.DrawLine(o, o + 1000 * d, color);
