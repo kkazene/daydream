@@ -5,51 +5,51 @@ using UnityEngine;
 public class Pointer : MonoBehaviour {
     public GameObject target;
     public Vector3 hitLocation;
+
+    public LineRenderer laser;
+
     GameObject controller;
     GameObject pointerDot;
 
-    // Use this for initialization
     void Start () {
         controller = GameObject.Find("Controller");
         pointerDot = GameObject.Find("PointerDot");
+
+        gameObject.AddComponent<LineRenderer>();
+        laser = gameObject.GetComponent<LineRenderer>();
+        Vector3[] initLaserPositions = new Vector3[ 2 ] { Vector3.zero, Vector3.zero };
+        laser.SetPositions(initLaserPositions);
+        laser.SetWidth( 0.01f, 0.01f );
+        laser.material = new Material(Shader.Find("Particles/Additive"));
     }
 
-    // Update is called once per frame
     void Update () {
         controller.transform.rotation = GvrControllerInput.Orientation;
 
         RaycastHit hit;
         target = null;
-
         Color color = Color.green;
+        float length = 1e6f;
 
         Vector3 o = controller.transform.position;
         Vector3 d = controller.transform.forward;
 
-        Ray ray = new Ray(o, o + d);
+        Ray ray = new Ray( o, d );
+        bool isHit = Physics.Raycast( ray, out hit, Mathf.Infinity /*, (1 << 8) */ );
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, (1 << 8))) {
-            target = hit.collider.gameObject;
+        if (isHit) {
+            target = hit.transform.gameObject;
             hitLocation = hit.point;
-            color = Color.red;
-            pointerDot.SetActive(true);
             pointerDot.transform.position = hitLocation;
-        } else {
-            pointerDot.SetActive(false);
+            color = Color.red;
+            length = hit.distance;
         }
 
-        //Debug.DrawLine(o, o + 1000 * d, color);
+        pointerDot.SetActive( isHit );
 
-        GameObject line = new GameObject();
-        line.transform.position = o;
-        line.AddComponent<LineRenderer>();
-
-        LineRenderer lr = line.GetComponent<LineRenderer>();
-        lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
-        lr.SetColors(color, color);
-        lr.SetWidth(0.1f, 0.1f);
-        lr.SetPosition(0, o);
-        lr.SetPosition(1, o + 1000 * d);
-        GameObject.Destroy(line, 0.1f);
+        laser.SetColors( color, color );
+        laser.SetPosition( 0, o );
+        laser.SetPosition( 1, o + length * d );
     }
+
 }
