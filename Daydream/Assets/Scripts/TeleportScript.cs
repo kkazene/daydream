@@ -4,22 +4,19 @@ using UnityEngine;
 
 public class TeleportScript : MonoBehaviour {
 
-	public GameObject target;
-	public GameObject Headset;
+	GameObject headset;
 
-	// Use this for initialization
 	void Start () {
-		
+        headset = GameObject.Find("Headset");
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-		/*if (GvrControllerInput.ClickButtonDown) {
-			// If the Pointer currently has a non-null target
-			if (PointerDot.target != null) {
-				// Move the Headset at a fixed height above Pointer’s hit point.
-				Headset.transform.position = PointerDot.target.position; // plus fixed height ":D"
+		if (GvrControllerInput.ClickButtonDown) {
+			var pointer = GameObject.Find("Controller").GetComponent<Pointer>();
+			if (pointer.target != null) {
+				headset.transform.position = pointer.hitLocation + Vector3.up * 1f;
 			}
-		}*/
+		}
 	}
+
 }

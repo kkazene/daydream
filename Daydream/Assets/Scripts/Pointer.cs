@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Pointer : MonoBehaviour {
+
     public GameObject target;
     public Vector3 hitLocation;
 
-    public LineRenderer laser;
+    LineRenderer laser;
 
     GameObject controller;
     GameObject pointerDot;
