@@ -18,12 +18,13 @@ public class Pointer : MonoBehaviour {
         laser = gameObject.GetComponent<LineRenderer>();
         Vector3[] initLaserPositions = new Vector3[ 2 ] { Vector3.zero, Vector3.zero };
         laser.SetPositions(initLaserPositions);
-        laser.SetWidth( 0.01f, 0.01f );
-        laser.material = new Material(Shader.Find("Particles/Additive"));
+        laser.startWidth = 0.01f;
+        laser.endWidth = 0.01f;
+        laser.material = new Material(Shader.Find("Mobile/Particles/Additive"));
     }
 
     void Update () {
-        transform.rotation = GvrControllerInput.Orientation;
+        transform.rotation = GameObject.Find("Headset").transform.rotation * GvrControllerInput.Orientation;
 
         RaycastHit hit;
         target = null;
@@ -46,7 +47,8 @@ public class Pointer : MonoBehaviour {
 
         pointerDot.SetActive( isHit );
 
-        laser.SetColors( color, color );
+        laser.startColor = color;
+        laser.endColor = color;
         laser.SetPosition( 0, o );
         laser.SetPosition( 1, o + length * d );
     }

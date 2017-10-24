@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TrackpadMovement : MonoBehaviour {
 
-	public float moveSpeed = 10f;
-	public float turnSpeed = 10f;
+	public float moveSpeed = 50f;
+	public float turnSpeed = 180f;
 	private Transform cameraTransform;
 
 	void Start () {
@@ -13,16 +13,20 @@ public class TrackpadMovement : MonoBehaviour {
 	}
 
 	void Update () {
-		var threshold = .3f;
+		var threshold = .4f;
 		if (GvrControllerInput.IsTouching) {
 			var pos = GvrControllerInput.TouchPosCentered;
-			if (pos.magnitude > threshold) {
-				var y = (pos.y - threshold) * (1f / (1f - threshold));
-				var x = (pos.x - threshold) * (1f / (1f - threshold));
+			if (Mathf.Abs(pos.y) > threshold) {
+				var y = pos.y - Mathf.Sign(pos.y) * threshold;
 				var ydir = y * Vector3.ProjectOnPlane(cameraTransform.forward, Vector3.up).normalized;
-				var xdir = x * Vector3.ProjectOnPlane(cameraTransform.right, Vector3.up).normalized;
-				transform.position += (ydir + xdir) * moveSpeed * Time.deltaTime;
-				//transform.Rotate(Vector3.up, x * turnSpeed * Time.deltaTime);
+				transform.position += ydir * moveSpeed * Time.deltaTime;
+			}
+			if (Mathf.Abs(pos.x) > threshold) {
+				var x = pos.x - Mathf.Sign(pos.x) * threshold;
+				transform.Rotate(Vector3.up, x * turnSpeed * Time.deltaTime);
+				// strafe
+				var xdir = -x * Vector3.ProjectOnPlane(cameraTransform.right, Vector3.up).normalized;
+				transform.position += xdir * moveSpeed * Time.deltaTime;
 			}
 		}
 	}
