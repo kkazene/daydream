@@ -9,11 +9,9 @@ public class Pointer : MonoBehaviour {
 
     LineRenderer laser;
 
-    GameObject controller;
     GameObject pointerDot;
 
     void Start () {
-        controller = GameObject.Find("Controller");
         pointerDot = GameObject.Find("PointerDot");
 
         gameObject.AddComponent<LineRenderer>();
@@ -25,15 +23,15 @@ public class Pointer : MonoBehaviour {
     }
 
     void Update () {
-        controller.transform.rotation = GvrControllerInput.Orientation;
+        transform.rotation = GvrControllerInput.Orientation;
 
         RaycastHit hit;
         target = null;
         Color color = Color.green;
         float length = 1e6f;
 
-        Vector3 o = controller.transform.position;
-        Vector3 d = controller.transform.forward;
+        Vector3 o = transform.position;
+        Vector3 d = transform.forward;
 
         Ray ray = new Ray( o, d );
         bool isHit = Physics.Raycast( ray, out hit, Mathf.Infinity /*, (1 << 8) */ );
