@@ -33,9 +33,6 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
-# Meta files #
-*.meta
-
 
 # ignore project version
 */ProjectSettings/ProjectVersion.txt
